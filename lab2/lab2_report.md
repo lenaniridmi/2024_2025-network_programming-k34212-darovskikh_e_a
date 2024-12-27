@@ -55,7 +55,7 @@ protocol=udp
  - NTP Client
  - OSPF с указанием Router ID
 
-Была создана конфигурация:
+Была собран файл Inventory:
 
 ```
 [CHRs]
