@@ -19,3 +19,5 @@ Date of finished: 27.12.2024
 ## <a name="section4">Ход работы</a>
 
 Был установлен второй CHR.
+
+<img src="./img/1.jpg" width=650>
