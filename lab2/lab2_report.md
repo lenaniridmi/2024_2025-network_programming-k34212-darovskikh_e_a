@@ -43,8 +43,71 @@ public-key="публичный ключ сервера"
 /ip firewall filter add action=accept chain=input dst-port=51820 int-interface=wireguard1
 protocol=udp
 ```
-Дальше была проведена проверка связности виртуальных машин:
+Дальше была проведена проверка связности:
 
 <img src="./img/3.jpg" width=650>
 
 <img src="./img/4.jpg" width=650>
+
+Далее была произведена настройка виртуальных машин с Ansible.
+При помощи Ansible одновременно на двух CHR были настроены:
+ - логин/пароль
+ - NTP Client
+ - OSPF с указанием Router ID
+
+Был создан плейбук:
+
+```
+---
+
+- name: "playbook for lab2" 
+- hosts: CHR1, CHR2
+  vars:
+    host_vars:
+      CHR1:
+        router_ip: 1.1.1.1
+      CHR2:
+        router_ip: 2.2.2.2
+
+  tasks:
+    - name: Set User&Password
+      community.routeros.command:
+        commands: "user add name=user password=user group=full"
+    
+    - name: Set NTP
+      community.routeros.command:
+        commands: "system ntp client set enabled=yes primary-ntp=8.8.8.8"
+
+    - name: Set OSPF
+      community.routeros.command:
+        comands: 
+          - /interface bridge add name=Lo
+          - /ip address add interface=Lo address="{{ router_id }}/32" 
+          - /routing ospf instance set router-id="{{ router_id }}"
+          - /routing ospf  network=0.0.0.0/0 add area=backbone" 
+
+    - name: Collect config
+      community.network.routeros.facts:
+        gather_subset:
+          - config
+          - ansible_net_ospf_instance 
+          - ansible_net_ospf_neighbor
+         
+...
+ansible_net_ospf_instance 
+ansible_net_ospf_neighbor
+```
+
+И конфигурация:
+
+```
+[CHRs]
+CHR1 ansible_host=10.2.0.2 router_id=1.1.1.1
+CHR2 ansible_host=10.2.0.3 router_id=2.2.2.2
+
+[CHRs:vars]
+ansible_user=admin
+ansible_password=admin
+ansible_connection=network_cli
+ansible_network_os=routeros
+```
