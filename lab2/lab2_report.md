@@ -55,7 +55,22 @@ protocol=udp
  - NTP Client
  - OSPF с указанием Router ID
 
-Был создан плейбук:
+Была создана конфигурация:
+
+```
+[CHRs]
+CHR1 ansible_host=10.2.0.2 router_id=1.1.1.1
+CHR2 ansible_host=10.2.0.3 router_id=2.2.2.2
+
+[CHRs:vars]
+ansible_user=admin
+ansible_password=admin
+ansible_connection=network_cli
+ansible_network_os=routeros
+```
+Тут перечисляются устройства, на которых будет производиться настройка (CHR1 и CHR2). А также прописываются переменные, которые при настройке будет подтягивать playbook.
+
+Плейбук:
 
 ```
 ---
@@ -97,17 +112,26 @@ protocol=udp
 ansible_net_ospf_instance 
 ansible_net_ospf_neighbor
 ```
+Данный файл содержит в себе сценарии действий настройки. Здесь указано, на каких устройствах будет производиться настройка и перечислены задания, содержащие команды настройки.
 
-И конфигурация:
+После завершения настройки устройств были собранны данные по OSPF топологии и полные конфиги устройств. За это отвечают последние task-ов в playbook.
 
-```
-[CHRs]
-CHR1 ansible_host=10.2.0.2 router_id=1.1.1.1
-CHR2 ansible_host=10.2.0.3 router_id=2.2.2.2
+Собранные данные по OSPF:
 
-[CHRs:vars]
-ansible_user=admin
-ansible_password=admin
-ansible_connection=network_cli
-ansible_network_os=routeros
-```
+<img src="./img/5.jpg" width=650>
+
+Конфиги после настройки устройств:
+
+- CHR1:
+
+<img src="./img/6.jpg" width=650>
+<img src="./img/7.jpg" width=650>
+
+- CHR2:
+  
+<img src="./img/8.jpg" width=650>
+<img src="./img/9.jpg" width=650>
+
+**Вывод**
+
+В данной лабораторной работе была создана вторая виртуальная машина CHR2, с помощью Ansible на CHR1 и CHR2 были настроены логин/пароль, NTP Client, OSPF. Были собраны конфигурационные данный по машинах и данные по OSPF.
