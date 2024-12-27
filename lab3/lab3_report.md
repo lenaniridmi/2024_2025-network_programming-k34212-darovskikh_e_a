@@ -31,18 +31,10 @@ sudo apt install -y postgresql
 
 Была создана база данных и настроен пользователь для допуска к ней.
 
-  ```
-    CREATE DATABASE netbox;
-    CREATE USER <username> WITH PASSWORD '<password>';
-    ALTER DATABASE netbox OWNER TO netbox;
-    -- the next two commands are needed on PostgreSQL 15 and later
-    \connect netbox;
-    GRANT CREATE ON SCHEMA public TO netbox;
-  ```
-  Пользователь и пароль были установлены свои.
+<img src="./img/1.jpg" width=650>
   
-  Был проверен статус системы:
+Был проверен статус системы:
 
-  ```
-  psql --username netbox --password --host localhost netbox
-  ```
+```
+psql --username netbox --password --host localhost netbox
+```
