@@ -139,7 +139,7 @@ sudo systemctl start netbox netbox-rq
 sudo systemctl enable netbox netbox-rq
 ```
 
-<img src="./img/3.jpg" width=650>
+<img src="./img/3.jpg" width=200>
 
 **Настройка HTTP сервера**
   
