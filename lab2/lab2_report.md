@@ -21,3 +21,13 @@ Date of finished: 27.12.2024
 Был установлен второй CHR.
 
 <img src="./img/1.jpg" width=650>
+
+Была произведена настройка пользоватля admin и клиента WireGuard для поднятия  VPN соединения. Была сгенерирована вторая пара ключей при помощи следующей команды:
+
+```
+wg genkey | sudo tee /etc/wireguard/wg0-client2-private.key | wg pubkey | sudo tee /etc/wireguard/wg0-client2-public.key
+```
+
+На сервере в конфигурационный файл /etc/wireguard/wg0.conf был добавлен второй пир:
+
+<img src="./img/2.jpg" width=650>
